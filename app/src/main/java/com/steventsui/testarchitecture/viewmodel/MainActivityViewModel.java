@@ -1,6 +1,11 @@
 package com.steventsui.testarchitecture.viewmodel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.databinding.Bindable;
+import android.databinding.ObservableField;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.steventsui.testarchitecture.model.UserModel;
@@ -11,6 +16,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import livedata.UserModelsLiveData;
 
 /**
  * Created by steven on 26/5/2017.
@@ -19,16 +25,14 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivityViewModel extends ViewModel {
 
     private static final String TAG = "MainActivityViewModel";
-//    private MutableLiveData<List<UserModel>> userModels;
-//
-//    public MutableLiveData<List<UserModel>> getUserModels() {
-//        return userModels;
-//    }
-
-    private List<UserModel> userModels;
+    private LiveData<List<UserModel>> userModelsLiveData;
 
     public MainActivityViewModel() {
-        loadUsers();
+        userModelsLiveData = new UserModelsLiveData();
+    }
+
+    public LiveData<List<UserModel>> getUserModelsLiveData() {
+        return userModelsLiveData;
     }
 
     @Override
@@ -36,26 +40,5 @@ public class MainActivityViewModel extends ViewModel {
         super.onCleared();
     }
 
-    private void loadUsers() {
-        StevenRepository.getInstance().getUserModelList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<UserModel>>() {
-                    @Override
-                    public void onNext(List<UserModel> result) {
-                        userModels = result;
-                        Log.d(TAG, "Loaded userList:" + userModels.size());
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
 }

@@ -19,4 +19,13 @@ public class LocalDataSource {
         }
         return userModels;
     }
+
+    public static List<UserModel> getUserList2() {
+        List<UserModel> userModels = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            UserModel userModel = new UserModel("User " + i, i, "address " + i);
+            userModels.add(userModel);
+        }
+        return userModels;
+    }
 }

@@ -37,4 +37,13 @@ public class StevenRepository {
             }
         });
     }
+
+    public Observable<List<UserModel>> getUserModelList2(){
+        return Observable.fromCallable(new Callable<List<UserModel>>() {
+            @Override
+            public List<UserModel> call() throws Exception {
+                return LocalDataSource.getUserList2();
+            }
+        });
+    }
 }
