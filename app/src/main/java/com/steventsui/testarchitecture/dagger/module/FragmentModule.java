@@ -1,8 +1,11 @@
 package com.steventsui.testarchitecture.dagger.module;
 
 import android.app.Fragment;
+import android.databinding.DataBindingUtil;
 
+import com.steventsui.testarchitecture.R;
 import com.steventsui.testarchitecture.dagger.scope.FragmentScope;
+import com.steventsui.testarchitecture.databinding.FragmentMainBinding;
 import com.steventsui.testarchitecture.viewmodel.MainFragmentViewModel;
 
 import dagger.Module;
@@ -33,6 +36,9 @@ public class FragmentModule {
         return new MainFragmentViewModel();
     }
 
-
-
+    @Provides
+    @FragmentScope
+    FragmentMainBinding provideFragmentMainBinding(Fragment fragment) {
+        return DataBindingUtil.inflate(fragment.getActivity().getLayoutInflater(), R.layout.fragment_main, null, false);
+    }
 }
